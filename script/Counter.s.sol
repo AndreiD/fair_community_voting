@@ -2,18 +2,27 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {Counter} from "../src/Counter.sol";
+import {QVoting} from "../src/QVoting.sol"; // Import the QVoting contract
 
-contract CounterScript is Script {
-    Counter public counter;
+contract QVotingScript is Script {
+    QVoting public votingContract; // Declare the QVoting contract instance
 
+    // Optional setup function; can be used for initial configurations
     function setUp() public {}
 
+    // Main function that executes the script to deploy the voting contract
     function run() public {
-        vm.startBroadcast();
+        vm.startBroadcast(); // Start broadcasting transactions
 
-        counter = new Counter();
+        // Deploy a new instance of the QVoting contract
+        votingContract = new QVoting(
+            msg.sender, // Creator address (you can change this as needed)
+            msg.sender, // Blocker address (you can change this as needed)
+            msg.sender // Register address (you can change this as needed)
+        );
 
-        vm.stopBroadcast();
+        console.log("QVoting contract deployed at:", address(votingContract)); // Log the contract address
+
+        vm.stopBroadcast(); // Stop broadcasting transactions
     }
 }
